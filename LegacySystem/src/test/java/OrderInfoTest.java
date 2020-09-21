@@ -1,16 +1,25 @@
 import Service.OrderService;
-import Service.impl.OrderServiceImpl;
 import Service.model.OrderEntity;
-import org.apache.cxf.jaxrs.client.WebClient;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class OrderInfoTest {
     public static void main(String[] args) {
-//        OrderService service = new OrderServiceImpl();
-//        OrderEntity testEntity = service.getOrderInfoById("417174");
-//        System.out.println(testEntity.getId()+","+testEntity.getMaterialId()+","+testEntity.getNumber()+","
-//        +testEntity.getDdl());
-        WebClient
-                .create("http://localhost:8080/OrderService/getOrderInfo/417174")
-                .get();
+        try{
+            URL wsdlDocumentLocation = new URL("http://localhost:8080/OrderService");
+            QName sName = new QName("http://impl.Service/", "OrderService");
+            Service service = Service.create(wsdlDocumentLocation, sName);
+            OrderService orderService = service.getPort(OrderService.class);
+            OrderEntity order = orderService.getOrderInfoById("418458");
+            System.out.println("Order Id: " + order.getId());
+            System.out.println("Material Id: " + order.getMaterialId());
+            System.out.println("Number: " + order.getNumber());
+            System.out.println("DDL: " + order.getDdl());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 }
