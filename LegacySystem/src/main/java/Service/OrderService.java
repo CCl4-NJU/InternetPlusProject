@@ -1,16 +1,19 @@
 package Service;
 
 import Service.model.OrderEntity;
-import Service.model.personnelEntity;
 
 import javax.jws.WebService;
+import javax.ws.rs.*;
 
 /**
- * 人事系统
+ * 订单管理系统
  */
 @WebService(name="OrderService")
 public interface OrderService {
 
     //获取订单信息
-    OrderEntity getOrderInfoById(String id);
+    @Path("/getOrderInfo/{id}")
+    @GET
+    @Produces("application/json")
+    OrderEntity getOrderInfoById(@PathParam("id") String id);
 }
