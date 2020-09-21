@@ -14,8 +14,8 @@ import javax.jws.WebService;
 public interface PersonnelService {
 
     //获取员工信息
-    PersonnelEntity getStaffInfoById(int id);
+    PersonnelEntity getStaffInfoById(String id);
 
     //进行身份认证
-    String idAuthentication(int id);
+    String idAuthentication(String id);
 }
