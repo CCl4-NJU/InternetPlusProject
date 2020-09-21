@@ -15,7 +15,8 @@ import java.util.*;
  * 订单管理系统
  */
 @WebService(
-        name = "OrderServiceImpl",
+        serviceName = "OrderService",
+        name = "OrderServiceSoap",
         endpointInterface = "Service.OrderService"
 )
 public class OrderServiceImpl implements OrderService {

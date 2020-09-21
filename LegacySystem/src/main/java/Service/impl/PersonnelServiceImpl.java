@@ -8,7 +8,8 @@ import javax.jws.WebService;
  * 人事系统
  */
 @WebService(
-        name = "personnelServiceImpl",
+        serviceName = "PersonnelService",
+        name = "PersonnelServiceSoap",
         endpointInterface = "Service.PersonnelService"
 )
 public class PersonnelServiceImpl implements PersonnelService {

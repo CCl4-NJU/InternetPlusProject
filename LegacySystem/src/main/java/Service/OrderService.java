@@ -8,7 +8,10 @@ import javax.ws.rs.*;
 /**
  * 订单管理系统
  */
-@WebService(name="OrderService")
+@WebService(
+        serviceName = "OrderService",
+        name="OrderServiceSoap"
+)
 public interface OrderService {
 
     //获取订单信息

@@ -7,7 +7,10 @@ import javax.jws.WebService;
 /**
  * 人事系统
  */
-@WebService(name="personnelService")
+@WebService(
+        serviceName = "PersonnelService",
+        name="PersonnelServiceSoap"
+)
 public interface PersonnelService {
 
     //获取员工信息

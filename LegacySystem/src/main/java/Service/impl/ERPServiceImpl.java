@@ -18,7 +18,8 @@ import java.util.List;
  * ERP系统
  */
 @WebService(
-        name = "ERPServiceImpl",
+        serviceName = "ERPService",
+        name = "ERPServiceSoap",
         endpointInterface = "Service.ERPService"
 )
 public class ERPServiceImpl implements ERPService {

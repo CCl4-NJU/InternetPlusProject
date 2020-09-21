@@ -12,7 +12,10 @@ import javax.ws.rs.Produces;
 /**
  * ERP系统
  */
-@WebService(name="ERPService")
+@WebService(
+        serviceName = "ERPService",
+        name="ERPServiceSoap"
+)
 public interface ERPService {
     //获取人力资源（班组）信息
 
