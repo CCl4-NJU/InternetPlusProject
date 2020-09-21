@@ -93,7 +93,8 @@ public class ExcelReadUtil {
                             if (value.length()>0) {
                                 list.add(value);
                             } else {
-                                col++;
+                                //col++;
+                                list.add(value);
                             }
                         }
                     }
