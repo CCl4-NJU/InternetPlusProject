@@ -3,7 +3,7 @@ package Service.model;
 /**
  * 员工信息
  */
-public class personnelEntity {
+public class PersonnelEntity {
     //工号
     private int id;
     //姓名

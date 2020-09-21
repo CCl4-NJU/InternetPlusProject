@@ -1,6 +1,6 @@
 package Service;
 
-import Service.model.personnelEntity;
+import Service.model.PersonnelEntity;
 
 import javax.jws.WebService;
 
@@ -8,10 +8,10 @@ import javax.jws.WebService;
  * 人事系统
  */
 @WebService(name="personnelService")
-public interface personnelService {
+public interface PersonnelService {
 
     //获取员工信息
-    personnelEntity getStaffInfoById(int id);
+    PersonnelEntity getStaffInfoById(int id);
 
     //进行身份认证
     String idAuthentication(int id);

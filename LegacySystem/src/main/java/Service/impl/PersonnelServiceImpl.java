@@ -1,7 +1,7 @@
 package Service.impl;
 
-import Service.model.personnelEntity;
-import Service.personnelService;
+import Service.model.PersonnelEntity;
+import Service.PersonnelService;
 import javax.jws.WebService;
 
 /**
@@ -9,17 +9,17 @@ import javax.jws.WebService;
  */
 @WebService(
         name = "personnelServiceImpl",
-        endpointInterface = "Service.personnelService"
+        endpointInterface = "Service.PersonnelService"
 )
-public class personnelServiceImpl implements personnelService {
+public class PersonnelServiceImpl implements PersonnelService {
     /**
      * 获取员工信息
      * @param id
      * @return
      */
-    public personnelEntity getStaffInfoById(int id) {
+    public PersonnelEntity getStaffInfoById(int id) {
         // TODO 读取csv，获取员工信息
-        personnelEntity staff = new personnelEntity();
+        PersonnelEntity staff = new PersonnelEntity();
         staff.setId(1);
         staff.setName("Mike");
         staff.setPosition("Manager");
