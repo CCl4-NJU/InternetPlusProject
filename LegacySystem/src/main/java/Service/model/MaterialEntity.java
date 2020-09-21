@@ -57,14 +57,15 @@ public class MaterialEntity {
 
     //根据物品属性的中文名获取对应枚举值
     public MaterialAttr computeAttr(String str){
-        if(str.equals("成品")){
-            return MaterialAttr.FINISHED;
-        } else if(str.equals("半成品")){
-            return MaterialAttr.SEMI_FINISHED;
-        } else if(str.equals("原材料")){
-            return MaterialAttr.RAW;
-        } else{
-            return null;
+        switch (str) {
+            case "成品":
+                return MaterialAttr.FINISHED;
+            case "半成品":
+                return MaterialAttr.SEMI_FINISHED;
+            case "原材料":
+                return MaterialAttr.RAW;
+            default:
+                return null;
         }
     }
 
