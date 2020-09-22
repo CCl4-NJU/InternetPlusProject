@@ -46,8 +46,11 @@ public class PersonnelServiceImpl implements PersonnelService {
      * @return
      */
     public String idAuthentication(String id) {
-        // TODO
-        return getStaffInfoById(id).getName();
+        PersonnelEntity personnel = getStaffInfoById(id);
+        if (personnel != null) {
+            return personnel.getName();
+        }
+        return null;
     }
 
     private static void initTblPersonnel() throws URISyntaxException {

@@ -4,18 +4,18 @@ package Service.model;
  * 班次信息
  */
 public class ClassEntity {
-    //班次代码
-    private ClassCode classCode;
+    //班次代码（0:全天，1：早班，2：晚班，3：休息）
+    private int classCode;
     //班次名称
     private ClassName className;
     //工作时间段
     private String workingHours;
 
-    public ClassCode getClassCode() {
+    public int getClassCode() {
         return classCode;
     }
 
-    public void setClassCode(ClassCode classCode) {
+    public void setClassCode(int classCode) {
         this.classCode = classCode;
     }
 
@@ -35,18 +35,18 @@ public class ClassEntity {
         this.workingHours = workingHours;
     }
 
-    public ClassCode computeCode(String str) {
+    public int computeCode(String str) {
         switch (str) {
             case "全天":
-                return ClassCode.WHOLE;
+                return 0;
             case "早班":
-                return ClassCode.DAY;
+                return 1;
             case "晚班":
-                return ClassCode.NIGHT;
+                return 2;
             case "休息":
-                return ClassCode.REST;
+                return 3;
             default:
-                return null;
+                return -1;
         }
     }
 
@@ -64,16 +64,6 @@ public class ClassEntity {
                 return null;
         }
     }
-}
-
-/**
- * 班次代码
- */
-enum ClassCode {
-    WHOLE,      //全天
-    DAY,        //早班
-    NIGHT,      //晚班
-    REST        //休息
 }
 
 /**

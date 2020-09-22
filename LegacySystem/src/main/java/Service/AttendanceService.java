@@ -1,5 +1,6 @@
 package Service;
 
+import Service.model.CalendarEntity;
 import Service.model.ClassEntity;
 
 import javax.jws.WebService;
@@ -17,4 +18,5 @@ public interface AttendanceService {
     List<ClassEntity> getClassInfo();
 
     //获取人力资源（班组）排班信息
+    List<CalendarEntity> getCalendarInfo();
 }
