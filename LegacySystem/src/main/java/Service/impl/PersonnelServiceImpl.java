@@ -48,7 +48,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     public String idAuthentication(String id) {
         PersonnelEntity personnel = getStaffInfoById(id);
         if (personnel != null) {
-            return personnel.getName();
+            return personnel.getPosition();
         }
         return null;
     }
