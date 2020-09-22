@@ -4,7 +4,9 @@ import Service.Database;
 import Service.ERPService;
 import Service.EmptyClass;
 import Service.model.LineEntity;
+import Service.model.ClassEntity;
 import Service.model.MaterialEntity;
+import Service.model.ResourceEntity;
 import Service.util.ExcelReadUtil;
 
 import javax.jws.WebService;
@@ -23,6 +25,47 @@ import java.util.*;
         endpointInterface = "Service.ERPService"
 )
 public class ERPServiceImpl implements ERPService {
+
+    /**
+     * 取人力资源（班组）信息
+     */
+    public List<ResourceEntity> getResourceTeamInfo(){
+        List<ResourceEntity> resourceInfo=new ArrayList<>();
+        Database.tbl_resource=new HashMap<>();
+        try {
+            //使用相对路径
+            String excelFilePath = Objects.requireNonNull(EmptyClass.class.getClassLoader()
+                    .getResource("./excel/resource.xlsx")).toURI().getPath();
+            HashMap<String, ArrayList<ArrayList<String>>> excelReadMap = ExcelReadUtil.readExcel(new File(excelFilePath), 2);
+
+            if (excelReadMap != null) {
+                ArrayList<ArrayList<String>> target = excelReadMap.get(
+                        excelReadMap.keySet().iterator().next()
+                );
+                for (List<String> row : target) {
+                    ResourceEntity tempResource =new ResourceEntity();
+                    tempResource.setProject(row.get(0));
+                    tempResource.setResourceId(row.get(1));
+                    tempResource.setResourceName(row.get(2));
+                    tempResource.setResourceBl(row.get(3));
+                    tempResource.setResourceType(row.get(4));
+                    tempResource.setResourceNum(row.get(5));
+                    resourceInfo.add(tempResource);
+                }
+            }
+
+            if(Database.tbl_resource==null){
+                for (ResourceEntity resourceEntity : resourceInfo) {
+                    Database.tbl_resource.put(resourceEntity.getResourceId(), resourceEntity);
+                }
+            }
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return resourceInfo;
+    }
+
     /**
      * 获取订单信息
      * @param id

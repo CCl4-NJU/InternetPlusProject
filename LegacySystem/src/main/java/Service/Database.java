@@ -15,4 +15,6 @@ public class Database {
     public static Map<String, MaterialEntity> tbl_material;
     //模拟resource表中的生产线资源信息，主键key是生产线资源id
     public static Map<String, LineEntity> tbl_lineResources;
+    //模拟resource表，主键key是资源代码
+    public static Map<String, ResourceEntity> tbl_resource;
 }
