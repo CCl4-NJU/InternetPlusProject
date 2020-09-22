@@ -1,14 +1,24 @@
 package Service;
 
 import Service.impl.ERPServiceImpl;
+import Service.model.ClassEntity;
 import Service.model.MaterialEntity;
+import Service.model.ResourceEntity;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class ERPServiceTest {
 
     ERPServiceImpl erpService = new ERPServiceImpl();
+
+    @Test
+    public void getResourceTeamInfoTest() {
+        List<ResourceEntity> resourceInfo = erpService.getResourceTeamInfo();
+        assertEquals(65, resourceInfo.size());
+    }
 
     @Test
     public void getMaterialInfoById() {
