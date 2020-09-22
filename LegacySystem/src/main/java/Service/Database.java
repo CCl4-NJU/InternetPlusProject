@@ -1,9 +1,6 @@
 package Service;
 
-import Service.model.ClassEntity;
-import Service.model.MaterialEntity;
-import Service.model.OrderEntity;
-import Service.model.PersonnelEntity;
+import Service.model.*;
 
 import java.util.Map;
 
@@ -16,4 +13,6 @@ public class Database {
     public static Map<String, OrderEntity> tbl_order;
     //模拟material表，主键key是物料编码
     public static Map<String, MaterialEntity> tbl_material;
+    //模拟resource表中的生产线资源信息，主键key是生产线资源id
+    public static Map<String, LineEntity> tbl_lineResources;
 }
