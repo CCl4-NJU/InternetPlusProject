@@ -1,6 +1,8 @@
 package Service;
 
 
+import Service.model.BOMEntity;
+import Service.model.LineEntity;
 import Service.model.MaterialEntity;
 import Service.model.ResourceEntity;
 
@@ -28,9 +30,32 @@ public interface ERPService {
 
     @Path("/material")
     @GET
-    @Consumes({"application/xml","application/json"})
+    @Consumes({"application/xml", "application/json"})
     @Produces("application/json")
     MaterialEntity getMaterialInfoById(String id);
 
+    @Path("/LineResourceById")
+    @GET
+    @Consumes({"application/xml", "application/json"})
+    @Produces("application/json")
+    LineEntity getLineResourceById(String id);
+
+    @Path("/LineResource")
+    @GET
+    @Consumes({"application/xml", "application/json"})
+    @Produces("application/json")
+    List<LineEntity> getAllLineResources();
+
     //获取BOM信息
+    @Path("/BOMById")
+    @GET
+    @Consumes({"application/xml", "application/json"})
+    @Produces("application/json")
+    BOMEntity getBOMById(String id);
+
+    @Path("/BOM")
+    @GET
+    @Consumes({"application/xml", "application/json"})
+    @Produces("application/json")
+    List<BOMEntity> getAllBOMs();
 }

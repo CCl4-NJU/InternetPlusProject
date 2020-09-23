@@ -17,4 +17,6 @@ public class Database {
     public static Map<String, LineEntity> tbl_lineResources;
     //模拟resource表，主键key是资源代码
     public static Map<String, ResourceEntity> tbl_resource;
+    //模拟product表，主键key是物料编码
+    public static Map<String, BOMEntity> tbl_product;
 }

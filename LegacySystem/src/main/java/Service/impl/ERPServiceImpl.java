@@ -3,16 +3,16 @@ package Service.impl;
 import Service.Database;
 import Service.ERPService;
 import Service.EmptyClass;
-import Service.model.LineEntity;
-import Service.model.ClassEntity;
-import Service.model.MaterialEntity;
-import Service.model.ResourceEntity;
+import Service.model.*;
 import Service.util.ExcelReadUtil;
 
 import javax.jws.WebService;
 import javax.sound.sampled.Line;
 import javax.xml.crypto.Data;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -119,6 +119,42 @@ public class ERPServiceImpl implements ERPService {
         }
         return tempList;
     }
+    /**
+     * 根据id获取BOM信息
+     * @param id  BOM产品id
+     * @return 该工艺相关信息
+     */
+    public BOMEntity getBOMById(String id){
+        if(Database.tbl_product==null){
+            try {
+                initTblBOMResources();
+            } catch (URISyntaxException e){
+                e.printStackTrace();
+            }
+        }
+
+        return Database.tbl_product.get(id);
+    }
+
+    /**
+     * 获取全部BOM信息
+     * @return 返回List，包含所有BOM信息，每个信息都为BOMEntity格式
+     */
+    public List<BOMEntity> getAllBOMs(){
+        if(Database.tbl_product==null){
+            try {
+                initTblBOMResources();
+            } catch (URISyntaxException e){
+                e.printStackTrace();
+            }
+        }
+        //将Database中的map转换为list
+        List<BOMEntity> tempList = new ArrayList<>();
+        for(Map.Entry<String, BOMEntity> entry: Database.tbl_product.entrySet()){
+            tempList.add(entry.getValue());
+        }
+        return tempList;
+    }
 
     private static void initTblMaterial() throws URISyntaxException {
         Database.tbl_material = new HashMap<>();
@@ -170,4 +206,69 @@ public class ERPServiceImpl implements ERPService {
             }
         }
     }
-}
+
+    private static void initTblBOMResources() throws  URISyntaxException {
+        Database.tbl_product = new HashMap<>();
+//        String excelFilePath = new EmptyClass().getClass().getClassLoader()
+//                .getResource("./excel/product.xlsx").toURI().getPath();
+//        HashMap<String, ArrayList<ArrayList<String>>> excelReadMap = ExcelReadUtil.readExcel(new File(excelFilePath), 1);
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("./excel/product.csv"), "GBK"));//GBK
+            String line = null;
+            line = reader.readLine();
+            List<String[]> file = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                String row[] = line.split(",");//CSV格式文件时候的分割符,我使用的是,号
+                file.add(row);
+            }
+
+            List<List<String[]>> content = new ArrayList<>();
+            List<String[]> temp = new ArrayList<>();
+            for (int i = 0; i < file.size(); i++) {
+                String[] t = file.get(i);
+                if (t[0].length() == 0 || i == 0) {
+                    temp.add(t);
+                } else {
+                    content.add(temp);
+                    temp = new ArrayList<>();
+                    temp.add(t);
+                }
+            }
+            content.add(temp);
+            for (List<String[]> product : content) {
+                //每个product都是一个BOM实体
+                BOMEntity bomEntity = new BOMEntity();
+                List<String> materials = new ArrayList<>();
+                List<Double> materialCount = new ArrayList<>();
+                List<String> mainResource = new ArrayList<>();
+                List<String> lineResource = new ArrayList<>();
+
+
+                bomEntity.setId(product.get(0)[0]);
+                bomEntity.setChangeTime(Integer.parseInt(product.get(0)[12]));//换线时间按第一行读取（每行都一样）
+                bomEntity.setStandardOutput(Integer.parseInt(product.get(0)[10]));//产能按第一行读取（每行都一样）
+                for (String[] row : product) {
+                    if (row[0].length() == 0) {
+                        materials.add(row[2]);
+                        materialCount.add(Double.parseDouble(row[4]));
+
+                    }
+                    if (row[8].length() != 0) {
+                        if (row[8] == "主资源") {
+                            mainResource.add(row[6]);
+                        } else if (row[8] == "副资源") {
+                            lineResource.add(row[6]);
+                        }
+                    }
+                }
+                Database.tbl_product.put(bomEntity.getId(), bomEntity);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    }
