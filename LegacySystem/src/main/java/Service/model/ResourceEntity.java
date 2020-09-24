@@ -1,22 +1,17 @@
 package Service.model;
 
-
 /**
  *人力资源（班组）信息
  */
 public class ResourceEntity {
     //项目
     private String project;
-
     //资源代码
     private String resourceId;
-
     //资源名称
     private String resourceName;
-
     //所属资源
     private String resourceBl;
-
     //资源类型
     private String resourceType;
 

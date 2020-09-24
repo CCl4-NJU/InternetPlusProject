@@ -15,8 +15,5 @@ import javax.ws.rs.*;
 public interface OrderService {
 
     //获取订单信息
-    @Path("/getOrderInfo/{id}")
-    @GET
-    @Produces("application/json")
-    OrderEntity getOrderInfoById(@PathParam("id") String id);
+    OrderEntity getOrderInfoById(String id);
 }
