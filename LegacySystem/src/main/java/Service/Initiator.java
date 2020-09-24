@@ -4,8 +4,10 @@ import Service.impl.AttendanceServiceImpl;
 import Service.impl.ERPServiceImpl;
 import Service.impl.OrderServiceImpl;
 import Service.impl.PersonnelServiceImpl;
+import Service.model.BOMEntity;
 
 import javax.xml.ws.Endpoint;
+import java.util.List;
 
 public class Initiator {
     /**
@@ -18,6 +20,8 @@ public class Initiator {
         String erpAddr = "http://localhost:8080/ERPService";
         String attendanceAddr = "http://localhost:8080/AttendanceService";
         System.out.println("Ready to Start...");
+
+
         Endpoint.publish(personnelAddr, new PersonnelServiceImpl());
         Endpoint.publish(orderAddr, new OrderServiceImpl());
         Endpoint.publish(erpAddr, new ERPServiceImpl());

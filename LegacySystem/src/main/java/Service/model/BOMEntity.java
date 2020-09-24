@@ -13,9 +13,11 @@ public class BOMEntity {
     //副资源
     private List<String>  lineResource;
     //换线时间
-    private int changeTime;
+    private String changeTime;
     //标准产能
-    private int standardOutput;
+    private String standardOutput;
+    //产品规定生产人员
+    private int workerCount;
 
     public String getId() {
         return id;
@@ -57,19 +59,27 @@ public class BOMEntity {
         this.lineResource = lineResource;
     }
 
-    public int getChangeTime() {
+    public String getChangeTime() {
         return changeTime;
     }
 
-    public void setChangeTime(int changeTime) {
+    public void setChangeTime(String changeTime) {
         this.changeTime = changeTime;
     }
 
-    public int getStandardOutput() {
+    public String getStandardOutput() {
         return standardOutput;
     }
 
-    public void setStandardOutput(int standardOutput) {
+    public void setStandardOutput(String standardOutput) {
         this.standardOutput = standardOutput;
+    }
+
+    public int getWorkerCount() {
+        return workerCount;
+    }
+
+    public void setWorkerCount(int workerCount) {
+        this.workerCount = workerCount;
     }
 }

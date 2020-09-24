@@ -7,8 +7,6 @@ import Service.model.*;
 import Service.util.ExcelReadUtil;
 
 import javax.jws.WebService;
-import javax.sound.sampled.Line;
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,6 +23,8 @@ import java.util.*;
         endpointInterface = "Service.ERPService"
 )
 public class ERPServiceImpl implements ERPService {
+
+
 
     /**
      * 取人力资源（班组）信息
@@ -209,12 +209,12 @@ public class ERPServiceImpl implements ERPService {
 
     private static void initTblBOMResources() throws  URISyntaxException {
         Database.tbl_product = new HashMap<>();
-//        String excelFilePath = new EmptyClass().getClass().getClassLoader()
-//                .getResource("./excel/product.xlsx").toURI().getPath();
-//        HashMap<String, ArrayList<ArrayList<String>>> excelReadMap = ExcelReadUtil.readExcel(new File(excelFilePath), 1);
+        String csvFilePath = new EmptyClass().getClass().getClassLoader()
+               .getResource("excel/product.csv").toURI().getPath();
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("./excel/product.csv"), "GBK"));//GBK
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFilePath), "GBK"));//GBK
             String line = null;
             line = reader.readLine();
             List<String[]> file = new ArrayList<>();
@@ -246,22 +246,29 @@ public class ERPServiceImpl implements ERPService {
 
 
                 bomEntity.setId(product.get(0)[0]);
-                bomEntity.setChangeTime(Integer.parseInt(product.get(0)[12]));//换线时间按第一行读取（每行都一样）
-                bomEntity.setStandardOutput(Integer.parseInt(product.get(0)[10]));//产能按第一行读取（每行都一样）
+                bomEntity.setChangeTime(product.get(0)[12]);//换线时间按第一行读取（每行都一样）
+                bomEntity.setStandardOutput(product.get(0)[10]);//产能按第一行读取（每行都一样）
+                bomEntity.setWorkerCount(Integer.parseInt(product.get(0)[13]));//产品规定生产人员按第一行读取（每行都一样）
+
                 for (String[] row : product) {
                     if (row[0].length() == 0) {
-                        materials.add(row[2]);
-                        materialCount.add(Double.parseDouble(row[4]));
-
+                        if(!row[1].equals("测试")&&row[2].length()!=0) {
+                            materials.add(row[2]);
+                            materialCount.add(Double.parseDouble(row[4]));
+                        }
                     }
-                    if (row[8].length() != 0) {
-                        if (row[8] == "主资源") {
+                    if (row[8].length() != 0&&(row[1].equals("装配")||row[1].length()==0)) {
+                        if (row[8] .equals("主资源")) {
                             mainResource.add(row[6]);
-                        } else if (row[8] == "副资源") {
+                        } else if (row[8] .equals("副资源")) {
                             lineResource.add(row[6]);
                         }
                     }
                 }
+                bomEntity.setMaterials(materials);
+                bomEntity.setMaterialCount(materialCount);
+                bomEntity.setMainResource(mainResource);
+                bomEntity.setLineResource(lineResource);
                 Database.tbl_product.put(bomEntity.getId(), bomEntity);
             }
 
