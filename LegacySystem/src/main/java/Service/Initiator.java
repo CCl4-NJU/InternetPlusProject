@@ -19,13 +19,14 @@ public class Initiator {
         String orderAddr = "http://localhost:8080/OrderService";
         String erpAddr = "http://localhost:8080/ERPService";
         String attendanceAddr = "http://localhost:8080/AttendanceService";
-        System.out.println("Ready to Start...");
 
+        System.out.println("Ready to Start...");
 
         Endpoint.publish(personnelAddr, new PersonnelServiceImpl());
         Endpoint.publish(orderAddr, new OrderServiceImpl());
         Endpoint.publish(erpAddr, new ERPServiceImpl());
         Endpoint.publish(attendanceAddr, new AttendanceServiceImpl());
+
         System.out.println("Publish Success!");
     }
 }
