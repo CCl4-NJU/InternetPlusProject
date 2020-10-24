@@ -4,6 +4,8 @@ import Service.impl.OrderServiceImpl;
 import Service.model.OrderEntity;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class OrderServiceTest {
@@ -17,5 +19,11 @@ public class OrderServiceTest {
         assertEquals("3040339", order.getMaterialId());
         assertEquals(Long.valueOf(100), order.getNumber());
         assertEquals("Wed Nov 28 14:00:00 CST 2018", order.getDdl().toString());
+    }
+
+    @Test
+    public void getAllOrders(){
+        List<OrderEntity> orderEntityList = orderService.getAllOrders();
+        assertEquals(78,orderEntityList.size());
     }
 }

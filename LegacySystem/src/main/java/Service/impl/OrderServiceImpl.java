@@ -37,6 +37,22 @@ public class OrderServiceImpl implements OrderService {
         return Database.tbl_order.get(id);
     }
 
+    @Override
+    public List<OrderEntity> getAllOrders() {
+        if(Database.tbl_order==null){
+            try {
+                initTblOrder();
+            } catch (URISyntaxException e){
+                e.printStackTrace();
+            }
+        }
+        List<OrderEntity> tempList = new ArrayList<>();
+        for(Map.Entry<String, OrderEntity> entry: Database.tbl_order.entrySet()){
+            tempList.add(entry.getValue());
+        }
+        return tempList;
+    }
+
     private static void initTblOrder() throws URISyntaxException {
         Database.tbl_order = new HashMap<>();
         //使用相对路径
