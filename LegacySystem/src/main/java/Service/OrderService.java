@@ -3,7 +3,6 @@ package Service;
 import Service.model.OrderEntity;
 
 import javax.jws.WebService;
-import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -18,5 +17,9 @@ public interface OrderService {
     //获取订单信息
     OrderEntity getOrderInfoById(String id);
 
+    //获取订单信息
     List<OrderEntity> getAllOrders();
+
+    //插入订单
+    int insertOrder(OrderEntity order);
 }

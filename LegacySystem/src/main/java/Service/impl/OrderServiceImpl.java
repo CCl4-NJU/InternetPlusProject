@@ -5,10 +5,12 @@ import Service.EmptyClass;
 import Service.OrderService;
 import Service.model.OrderEntity;
 import Service.util.ExcelReadUtil;
+import Service.util.ExcelWriteUtil;
 
 import javax.jws.WebService;
 import java.io.File;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -37,6 +39,11 @@ public class OrderServiceImpl implements OrderService {
         return Database.tbl_order.get(id);
     }
 
+    /**
+     * 获取所有订单信息
+     * @return
+     */
+
     @Override
     public List<OrderEntity> getAllOrders() {
         if(Database.tbl_order==null){
@@ -51,6 +58,31 @@ public class OrderServiceImpl implements OrderService {
             tempList.add(entry.getValue());
         }
         return tempList;
+    }
+
+    /**
+     * 插入订单
+     * @param order
+     * @return
+     */
+
+    @Override
+    public int insertOrder(OrderEntity order) {
+        ArrayList<String> content = new ArrayList<>();
+        content.add(order.getId());
+        content.add(order.getMaterialId());
+        content.add(String.valueOf(order.getNumber()));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        content.add(format.format(order.getDdl()));
+        try{
+            String excelFilePath = new EmptyClass().getClass().getClassLoader()
+                    .getResource("./excel/order.xlsx").toURI().getPath();
+            int result = ExcelWriteUtil.writeExcel(new File(excelFilePath), content);
+            return result;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private static void initTblOrder() throws URISyntaxException {
