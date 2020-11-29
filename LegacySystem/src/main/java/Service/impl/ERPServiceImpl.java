@@ -43,14 +43,16 @@ public class ERPServiceImpl implements ERPService {
                         excelReadMap.keySet().iterator().next()
                 );
                 for (List<String> row : target) {
-                    ResourceEntity tempResource =new ResourceEntity();
-                    tempResource.setProject(row.get(0));
-                    tempResource.setResourceId(row.get(1));
-                    tempResource.setResourceName(row.get(2));
-                    tempResource.setResourceBl(row.get(3));
-                    tempResource.setResourceType(row.get(4));
-                    tempResource.setResourceNum(row.get(5));
-                    resourceInfo.add(tempResource);
+                    if(row.get(2).equals("班组")){
+                        ResourceEntity tempResource =new ResourceEntity();
+                        tempResource.setProject(row.get(0));
+                        tempResource.setResourceId(row.get(1));
+                        tempResource.setResourceName(row.get(2));
+                        tempResource.setResourceBl(row.get(3));
+                        tempResource.setResourceType(row.get(4));
+                        tempResource.setResourceNum(row.get(5));
+                        resourceInfo.add(tempResource);
+                    }
                 }
             }
 
@@ -239,43 +241,30 @@ public class ERPServiceImpl implements ERPService {
             for (List<String[]> product : content) {
                 //每个product都是一个BOM实体
                 BOMEntity bomEntity = new BOMEntity();
-                List<String> materials = new ArrayList<>();
-                List<Double> materialCount = new ArrayList<>();
                 List<String> mainResource = new ArrayList<>();
                 List<String> lineResource = new ArrayList<>();
 
 
                 bomEntity.setId(product.get(0)[0]);
-                bomEntity.setChangeTime(product.get(0)[12]);//换线时间按第一行读取（每行都一样）
-                bomEntity.setStandardOutput(product.get(0)[10]);//产能按第一行读取（每行都一样）
-                bomEntity.setWorkerCount(Integer.parseInt(product.get(0)[13]));//产品规定生产人员按第一行读取（每行都一样）
+                bomEntity.setProcess(product.get(0)[1]);
+                bomEntity.setChangeTime(product.get(0)[6]);//换线时间按第一行读取（每行都一样）
+                bomEntity.setStandardOutput(product.get(0)[4]);//产能按第一行读取（每行都一样）
+                bomEntity.setWorkerCount(Integer.parseInt(product.get(0)[7]));//产品规定生产人员按第一行读取（每行都一样）
 
                 for (String[] row : product) {
-                    if (row[0].length() == 0) {
-                        if(!row[1].equals("测试")&&row[2].length()!=0) {
-                            materials.add(row[2]);
-                            materialCount.add(Double.parseDouble(row[4]));
-                        }
-                    }
-                    if (row[8].length() != 0&&(row[1].equals("装配")||row[1].length()==0)) {
-                        if (row[8] .equals("主资源")) {
-                            mainResource.add(row[6]);
-                        } else if (row[8] .equals("副资源")) {
-                            lineResource.add(row[6]);
-                        }
+                    if (row[3] .equals("主资源")) {
+                        mainResource.add(row[2]);
+                    } else if (row[3] .equals("副资源")) {
+                        lineResource.add(row[2]);
                     }
                 }
-                bomEntity.setMaterials(materials);
-                bomEntity.setMaterialCount(materialCount);
                 bomEntity.setMainResource(mainResource);
                 bomEntity.setLineResource(lineResource);
-                Database.tbl_product.put(bomEntity.getId(), bomEntity);
+                Database.tbl_product.put(bomEntity.getId() + bomEntity.getProcess(), bomEntity);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
     }

@@ -38,15 +38,13 @@ public class ERPClientTest {
     }
     @Test
     public void getBOMById(){
-        BOMEntity bom=client.getBOMById("3036466");
-        assertEquals("3036466", bom.getId());
-        assertEquals("9761340", bom.getMaterials().get(0));
-        assertEquals(5, bom.getMaterials().size());
-        assertEquals(5, bom.getMaterialCount().size());
-        assertEquals(9, bom.getMainResource().size());
-        assertEquals(3, bom.getLineResource().size());
-        assertEquals("0.1H", bom.getChangeTime());
-        assertEquals("178个/小时", bom.getStandardOutput());
-        assertEquals(4, bom.getWorkerCount());
+        BOMEntity bom=client.getBOMById("3211498装配");
+        assertEquals("3211498", bom.getId());
+        assertEquals("装配", bom.getProcess());
+        assertEquals(5, bom.getMainResource().size());
+        assertEquals(1, bom.getLineResource().size());
+        assertEquals("0.1", bom.getChangeTime());
+        assertEquals("250", bom.getStandardOutput());
+        assertEquals(2, bom.getWorkerCount());
     }
 }

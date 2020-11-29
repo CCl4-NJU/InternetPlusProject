@@ -4,13 +4,11 @@ import java.util.List;
 
 public class BOMEntity {
     private String id;
-    //物品代码
-    private List<String> materials;
-    //物品对应的数量
-    private List<Double> materialCount;
-    //主资源
+    //工艺
+    private String process;
+    //主资源（人力）
     private List<String>  mainResource;
-    //副资源
+    //副资源（机器）
     private List<String>  lineResource;
     //换线时间
     private String changeTime;
@@ -27,20 +25,12 @@ public class BOMEntity {
         this.id = id;
     }
 
-    public List<String> getMaterials() {
-        return materials;
+    public String getProcess() {
+        return process;
     }
 
-    public void setMaterials(List<String> materials) {
-        this.materials = materials;
-    }
-
-    public List<Double> getMaterialCount() {
-        return materialCount;
-    }
-
-    public void setMaterialCount(List<Double> materialCount) {
-        this.materialCount = materialCount;
+    public void setProcess(String process) {
+        this.process = process;
     }
 
     public List<String> getMainResource() {
