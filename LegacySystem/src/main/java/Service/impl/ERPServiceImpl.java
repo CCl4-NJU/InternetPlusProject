@@ -143,17 +143,59 @@ public class ERPServiceImpl implements ERPService {
      * @return 返回List，包含所有BOM信息，每个信息都为BOMEntity格式
      */
     public List<BOMEntity> getAllBOMs(){
-        if(Database.tbl_product==null){
-            try {
-                initTblBOMResources();
-            } catch (URISyntaxException e){
-                e.printStackTrace();
-            }
-        }
-        //将Database中的map转换为list
         List<BOMEntity> tempList = new ArrayList<>();
-        for(Map.Entry<String, BOMEntity> entry: Database.tbl_product.entrySet()){
-            tempList.add(entry.getValue());
+        try {
+            String csvFilePath = new EmptyClass().getClass().getClassLoader()
+                    .getResource("excel/product.csv").toURI().getPath();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFilePath), "GBK"));//GBK
+            String line = null;
+            line = reader.readLine();
+            List<String[]> file = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                String row[] = line.split(",");//CSV格式文件时候的分割符,我使用的是,号
+                file.add(row);
+            }
+
+            List<List<String[]>> content = new ArrayList<>();
+            List<String[]> temp = new ArrayList<>();
+            for (int i = 0; i < file.size(); i++) {
+                String[] t = file.get(i);
+                if (t[0].length() == 0 || i == 0) {
+                    temp.add(t);
+                } else {
+                    content.add(temp);
+                    temp = new ArrayList<>();
+                    temp.add(t);
+                }
+            }
+            content.add(temp);
+            for (List<String[]> product : content) {
+                //每个product都是一个BOM实体
+                BOMEntity bomEntity = new BOMEntity();
+                List<String> mainResource = new ArrayList<>();
+                List<String> lineResource = new ArrayList<>();
+
+
+                bomEntity.setId(product.get(0)[0]);
+                bomEntity.setProcess(product.get(0)[1]);
+                bomEntity.setChangeTime(product.get(0)[6]);//换线时间按第一行读取（每行都一样）
+                bomEntity.setStandardOutput(product.get(0)[4]);//产能按第一行读取（每行都一样）
+                bomEntity.setWorkerCount(Integer.parseInt(product.get(0)[7]));//产品规定生产人员按第一行读取（每行都一样）
+
+                for (String[] row : product) {
+                    if (row[3] .equals("主资源")) {
+                        mainResource.add(row[2]);
+                    } else if (row[3] .equals("副资源")) {
+                        lineResource.add(row[2]);
+                    }
+                }
+                bomEntity.setMainResource(mainResource);
+                bomEntity.setLineResource(lineResource);
+                tempList.add(bomEntity);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return tempList;
     }

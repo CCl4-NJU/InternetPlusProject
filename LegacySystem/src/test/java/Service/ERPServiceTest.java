@@ -41,4 +41,10 @@ public class ERPServiceTest {
         assertEquals("250", bom.getStandardOutput());
         assertEquals(2, bom.getWorkerCount());
     }
+
+    @Test
+    public void getAllBoms(){
+        List<BOMEntity> bomEntityList = erpService.getAllBOMs();
+        assertEquals(bomEntityList.size(), 14);
+    }
 }
